@@ -1,5 +1,0 @@
-#!/bin/bash
-
-#---Make temporary directories and get dependencies---#
-tmpdir=tmp$$
-mkdir ~/$tmpdir
