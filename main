@@ -29,7 +29,7 @@ curledFile=/tmp$$/
     echo;echo
 
 #--- DOWNLOAD THE PACKAGE ---#
-    echo -e "\033[1mcURLing Java_8_Update_60.pkg...\033[0m"
+    echo -e "\033[1mcURLing Safe Exam...\033[0m"
     #sudo curl $serverAddress -o $curledFile
     echo -e "\033[1mDone.\033[0m"
 
@@ -37,7 +37,7 @@ curledFile=/tmp$$/
 
 #--- INSTALL THE PACKAGE ---#
     echo -e "\033[1mInstalling packages...\033[0m"
-    #sudo installer -verbose -pkg $curledFile -target LocalSystem
+    mv -f /$randomTMP/Safe\ Exam\ Browser.app /Applications/Safe Exam Browser.app
     echo -e "\033[1mDone.\033[0m"
 
     echo;echo
@@ -47,11 +47,11 @@ curledFile=/tmp$$/
     echo;echo
 
 #--- REMOVE THE LINE GRANTING ROOT ACCESS ---#
-    #sudo sed -i "" "/NOPASSWD:ALL/d" /etc/sudoers
+    sudo sed -i "" "/NOPASSWD:ALL/d" /etc/sudoers
 #--- REMOVE TEMPORARY DIRECTORY ---#
-    #echo -e "\033[1mRemoving temporary files and directories...\033[0m"
-    #echo -e "\033[1mRemoved: \033[0m"
-    #rm -rfv /tmp$$
+    echo -e "\033[1mRemoving temporary files and directories...\033[0m"
+    echo -e "\033[1mRemoved: \033[0m"
+    rm -rfv /tmp$$
 
     echo;echo
 
