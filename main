@@ -58,6 +58,3 @@ curledFile=/tmp$$/
     echo -e "\033[1mCompleted successfully.\033[0m"
   fi
   exit 0
-
-#--- MAKE SURE WE SUCCEED ---#
-trap KeepSafe EXIT
